@@ -1,0 +1,147 @@
+/* Global Styles */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f8f9fa;
+  color: #343a40;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  font-weight: 500;
+  background-color: #007bff;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: #ffffff;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: #d0d0d0;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("./images/Background.jpg") no-repeat center center/cover;
+  padding: 100px 0;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.hero h1 {
+  font-size: 2.7rem;
+  font-weight: 700;
+}
+
+.hero h2 {
+  font-size: 3rem;
+}
+
+.hero p {
+  font-size: 1.25rem;
+}
+
+/* Matches Section */
+.matches {
+  background-color: #e9ecef;
+  padding: 60px 0;
+}
+
+.matches .card {
+  border: none;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.matches .card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.matches .card-title {
+  color: #007bff;
+}
+
+/* About Section */
+.about {
+  background: linear-gradient(to right, #ffffff, #f1f3f5);
+  padding: 60px 0;
+  color: #343a40;
+  text-align: center;
+  animation: fadeInUp 1s ease-in-out;
+}
+
+.about p {
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+/* Contact Section */
+.contact {
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 60px 0;
+  animation: fadeInUp 1s ease-in-out;
+}
+
+.contact form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contact .form-label {
+  color: #ffffff;
+}
+
+.contact .btn-primary {
+  background-color: #0056b3;
+  border: none;
+}
+
+.contact .btn-primary:hover {
+  background-color: #00408d;
+}
+
+/* Footer */
+.footer {
+  background-color: #343a40;
+  color: #f8f9fa;
+  padding: 20px 0;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

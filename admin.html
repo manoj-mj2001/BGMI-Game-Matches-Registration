@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BGMI Admin Panel</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
+      rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css" />
+    <!-- SweetAlert2 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+      rel="stylesheet" />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+      }
+      .navbar {
+        background-color: #343a40;
+      }
+      .navbar-nav {
+        flex-direction: row;
+      }
+      .nav-item {
+        margin: 0 15px;
+      }
+      .nav-link {
+        color: white;
+        font-weight: 500;
+      }
+      .nav-link.active,
+      .nav-link:hover {
+        color: #ff6347;
+      }
+      .navbar-center {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+      }
+      .navbar-nav.me-auto {
+        margin-left: auto;
+      }
+      .admin-form,
+      .match-list {
+        padding: 0 15px;
+      }
+      @media (min-width: 768px) {
+        .admin-form,
+        .match-list {
+          padding: 0 30px;
+        }
+      }
+      @media (max-width: 576px) {
+        .navbar-center {
+          position: static;
+          transform: none;
+          margin: 0;
+          text-align: center;
+        }
+        .navbar-nav {
+          flex-direction: column;
+          align-items: center;
+        }
+        .nav-item {
+          margin: 5px 0;
+        }
+      }
+      .admin-form .form-control,
+      .admin-form .form-select {
+        border-radius: 0.375rem;
+      }
+      .match-list .table {
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+      <div class="container">
+        <a class="navbar-brand" href="#">MJ MatchHub</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse position-relative" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html" style="color: orange"
+                >User Side</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Admin Form -->
+    <section class="admin-form py-5">
+      <h1 class="text-center" style="margin-top: -40px; color: orangered">
+        Admin Panel
+      </h1>
+      <div class="container mb-5">
+        <h3 class="text-center mb-4">Add New Match</h3>
+        <form id="adminForm" class="shadow-lg p-4 bg-white rounded">
+          <div class="mb-3">
+            <label for="matchName" class="form-label">Match Name</label>
+            <input type="text" class="form-control" id="matchName" required />
+          </div>
+          <div class="mb-3">
+            <label for="matchDate" class="form-label">Match Date</label>
+            <input type="date" class="form-control" id="matchDate" required />
+          </div>
+          <div class="mb-3">
+            <label for="matchTime" class="form-label">Match Time</label>
+            <input type="time" class="form-control" id="matchTime" required />
+          </div>
+          <div class="mb-3">
+            <label for="matchType" class="form-label">Match Type</label>
+            <select class="form-select" id="matchType" required>
+              <option value="Classic">Classic</option>
+              <option value="Arena">Arena</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Add Match</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Match List -->
+    <section class="match-list py-5">
+      <div class="container">
+        <h2 class="text-center mb-4">Match List</h2>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Type</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="matchTableBody">
+              <!-- Match rows will be added here dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+      // Function to render matches
+      function renderMatches() {
+        const matchTableBody = document.getElementById("matchTableBody");
+        matchTableBody.innerHTML = ""; // Clear the table body
+
+        let matches = localStorage.getItem("matches")
+          ? JSON.parse(localStorage.getItem("matches"))
+          : [];
+
+        matches.forEach((match, index) => {
+          matchTableBody.innerHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${match.name}</td>
+                        <td>${match.date}</td>
+                        <td>${match.time}</td>
+                        <td>${match.type}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editMatch(${index})">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteMatch(${index})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+        });
+      }
+
+      // Add match form submission
+      document
+        .getElementById("adminForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const matchName = document.getElementById("matchName").value;
+          const matchDate = document.getElementById("matchDate").value;
+          const matchTime = document.getElementById("matchTime").value;
+          const matchType = document.getElementById("matchType").value;
+
+          const matchDetails = {
+            name: matchName,
+            date: matchDate,
+            time: matchTime,
+            type: matchType,
+          };
+
+          // Save the match details to local storage
+          let matches = localStorage.getItem("matches")
+            ? JSON.parse(localStorage.getItem("matches"))
+            : [];
+          matches.push(matchDetails);
+          localStorage.setItem("matches", JSON.stringify(matches));
+
+          // Reset the form
+          this.reset();
+
+          // Show success message with SweetAlert2
+          Swal.fire({
+            icon: "success",
+            title: "Match Added",
+            text: "The match has been added successfully!",
+            confirmButtonText: "OK",
+          });
+
+          // Render matches
+          renderMatches();
+        });
+
+      // Edit match
+      function editMatch(index) {
+        let matches = JSON.parse(localStorage.getItem("matches"));
+        const match = matches[index];
+
+        // Populate form with match details
+        document.getElementById("matchName").value = match.name;
+        document.getElementById("matchDate").value = match.date;
+        document.getElementById("matchTime").value = match.time;
+        document.getElementById("matchType").value = match.type;
+
+        // Remove the match from the list
+        matches.splice(index, 1);
+        localStorage.setItem("matches", JSON.stringify(matches));
+
+        // Re-render matches
+        renderMatches();
+      }
+
+      // Delete match
+      function deleteMatch(index) {
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You will not be able to recover this match!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            let matches = JSON.parse(localStorage.getItem("matches"));
+            matches.splice(index, 1);
+            localStorage.setItem("matches", JSON.stringify(matches));
+
+            // Show success message with SweetAlert2
+            Swal.fire("Deleted!", "The match has been deleted.", "success");
+
+            // Re-render matches
+            renderMatches();
+          }
+        });
+      }
+
+      // Initial render of matches
+      renderMatches();
+    </script>
+  </body>
+</html>
