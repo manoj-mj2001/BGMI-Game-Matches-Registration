@@ -47,4 +47,4 @@ This is a web-based application that allows administrators to manage BGMI match 
    - Use the "Register" button on each match card to open the registration modal.
    - Fill out the player details and submit the form to complete registration.
 
-## Check Live Preview : https://mjs-bgmi-matches-registration.netlify.app/
+**Check Live Preview**: https://mjs-bgmi-matches-registration.netlify.app/
