@@ -12,6 +12,7 @@ This is a web-based application that allows administrators to manage BGMI match 
 - **Player Registration**: Users can register for matches with dynamically generated forms.
 - **SweetAlert Notifications**: Elegant alerts for actions like registration success and match deletion.
 - **Responsive Design**: Fully responsive for all screen sizes.
+- **Local Storage**: Store match data and registration details in the browser’s local storage.
 
 ## Technologies Used
 
