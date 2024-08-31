@@ -73,21 +73,33 @@ function updatePlayerFields() {
     playerFieldsContainer.appendChild(playerField);
   }
 }
-
 document
   .getElementById("registerForm")
   .addEventListener("submit", function (e) {
     e.preventDefault();
 
+    const playerName = document.getElementById("playerName").value;
+    const playerEmail = document.getElementById("playerEmail").value;
+    const teamName = document.getElementById("teamName").value;
+    const totalPlayers = document.getElementById("totalPlayers").value;
+
+    let players = [];
+    for (let i = 1; i <= totalPlayers; i++) {
+      const playerField = document.getElementById(`player${i}Name`);
+      if (playerField) {
+        players.push(playerField.value);
+      }
+    }
+
     Swal.fire({
+      title: "Registration Successful!",
+      text: `Team ${teamName} has been registered with players: ${players.join(
+        ", "
+      )}`,
       icon: "success",
-      title: "Registered Successfully",
-      text: "Your registration has been completed!",
       confirmButtonText: "OK",
     });
 
-    const registerModal = new bootstrap.Modal(
-      document.getElementById("registerModal")
-    );
-    registerModal.hide();
+    this.reset();
+    playerFieldsContainer.innerHTML = "";
   });
